@@ -26,7 +26,6 @@ const qs = useQueryState(
   })
 );
 
-debugger;
 </script>
 
 <template>

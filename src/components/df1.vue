@@ -3,8 +3,10 @@ import { ref, onMounted, nextTick } from 'vue';
 import {
   useFilteredTodos_defineQueryOptions,
   useFilteredTodos_defineQueryOptions2,
+  
 } from '../queries/useFilteredTodos_defineQueryOptions';
 import { useFilteredTodos_NO_defineQueryOptions } from '../queries/useFilteredTodos_NO_defineQueryOptions';
+import { useFilteredTodos_defineQueryOptionsNoRef } from '../queries/useFilteredTodos_defineQueryOptions_NoRef';
 
 async function getUser() {
   await fetch('https://dummyjson.com/users/1')
@@ -19,6 +21,7 @@ const filteredTodos_NO_defineQueryOptions =
   useFilteredTodos_NO_defineQueryOptions();
 const filteredTodos_defineQueryOptions2 =
   useFilteredTodos_defineQueryOptions2();
+const filteredTodos_defineQueryOptionsNoRef = useFilteredTodos_defineQueryOptionsNoRef();
 debugger;
 
 onMounted(async () => {
@@ -38,6 +41,8 @@ onMounted(async () => {
   // Also see another request when the searchRequest (key dependency) changes
   filteredTodos_NO_defineQueryOptions.searchRequest.value.skip = 3;
   //debugger;
+
+  filteredTodos_defineQueryOptionsNoRef.isEnabled.value = true;
 });
 </script>
 
@@ -69,5 +74,15 @@ onMounted(async () => {
   />
   <pre style="height: 200px; overflow: auto">{{
     filteredTodos_defineQueryOptions2.todoList
+  }}</pre>
+
+<h3>defineQueryOptionsNoRef</h3>
+  <input
+    v-if="filteredTodos_defineQueryOptionsNoRef.searchRequest"
+    v-model.number="filteredTodos_defineQueryOptionsNoRef.searchRequest.value.skip"
+    type="number"
+  />
+  <pre style="height: 200px; overflow: auto">{{
+    filteredTodos_defineQueryOptionsNoRef.todoList
   }}</pre>
 </template>
