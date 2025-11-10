@@ -22,7 +22,7 @@ const filteredTodos_NO_defineQueryOptions =
 const filteredTodos_defineQueryOptions2 =
   useFilteredTodos_defineQueryOptions2();
 const filteredTodos_defineQueryOptionsNoRef = useFilteredTodos_defineQueryOptionsNoRef();
-debugger;
+const { searchRequest: searchRequestNoRef, isEnabled: isEnabledNoRef, todoList: todoListNoRef } = useFilteredTodos_defineQueryOptionsNoRef();
 
 onMounted(async () => {
   await getUser();
@@ -42,7 +42,10 @@ onMounted(async () => {
   filteredTodos_NO_defineQueryOptions.searchRequest.value.skip = 3;
   //debugger;
 
+  // this will enable it for all usages of useFilteredTodos_defineQueryOptionsNoRef
   filteredTodos_defineQueryOptionsNoRef.isEnabled.value = true;
+  // dont' need to enable it again since the line above already did
+  //isEnabledNoRef.value = true;
 });
 </script>
 
@@ -76,13 +79,28 @@ onMounted(async () => {
     filteredTodos_defineQueryOptions2.todoList
   }}</pre>
 
-<h3>defineQueryOptionsNoRef</h3>
+  <h3>defineQueryOptionsNoRef</h3>
+  <div v-if="filteredTodos_defineQueryOptionsNoRef.todoList.value.status === 'pending'">
+    Loading...
+  </div>
   <input
     v-if="filteredTodos_defineQueryOptionsNoRef.searchRequest"
     v-model.number="filteredTodos_defineQueryOptionsNoRef.searchRequest.value.skip"
     type="number"
   />
   <pre style="height: 200px; overflow: auto">{{
-    filteredTodos_defineQueryOptionsNoRef.todoList
+    filteredTodos_defineQueryOptionsNoRef.todoList.value.data
+  }}</pre>
+  <h3>defineQueryOptionsNoRefDestructured</h3>
+  <div v-if="todoListNoRef.status === 'pending'">
+    Loading...
+  </div>
+  <input
+    v-if="searchRequestNoRef"
+    v-model.number="searchRequestNoRef.skip"
+    type="number"
+  />
+  <pre style="height: 200px; overflow: auto">{{
+    todoListNoRef.data
   }}</pre>
 </template>
